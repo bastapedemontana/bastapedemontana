@@ -1,0 +1,92 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  <div class="banner-background">
+	<div class="banner">
+	{{ content | newline_to_br }}
+	</div>
+  </div>
+
+
+  {% if site.paginate %}
+    {% assign posts = paginator.posts %}
+  {% else %}
+    {% assign posts = site.posts %}
+  {% endif %}
+
+
+  {%- if posts.size > 0 -%}
+    {%- if page.list_title -%}
+      <h2 class="post-list-heading">{{ page.list_title }}</h2>
+    {%- endif -%}
+    <ul class="post-list">
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      {%- for post in site.categories.main -%}
+      <li class="post-list-item">
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            <img class="home-icon" src="{{ post.image | prepend: site.baseurl }}" alt="{{ post.title }}" title="{{ post.title }}"> {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          {{ post.excerpt }}
+	  {% if post.content.size > post.excerpt.size %}
+		<p><a href="{{ post.url }}">Continua a leggere...</a></p>
+	  {% endif %}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    {% if site.paginate %}
+      <div class="pager">
+        <ul class="pagination">
+        {%- if paginator.previous_page %}
+          <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
+        {%- else %}
+          <li><div class="pager-edge">•</div></li>
+        {%- endif %}
+          <li><div class="current-page">{{ paginator.page }}</div></li>
+        {%- if paginator.next_page %}
+          <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
+        {%- else %}
+          <li><div class="pager-edge">•</div></li>
+        {%- endif %}
+        </ul>
+      </div>
+    {%- endif %}
+
+  {%- endif -%}
+
+</div>
+<div class="video-container">
+{%- for post in site.categories.video -%}
+<div class="video">
+{{ post.content }}
+</div>
+{%- endfor -%}
+</div>
+<div class="box-background">
+	<div class="box">
+	<h2 class="box-list-heading">{{ page.box_title }}</h2>
+	<ul class="box-list">{% for post in site.categories.numbers %}
+		<li class="box-list-item">
+	<h3 class="box-list-item"><img class="box-icon" src="{{ post.image | prepend: site.baseurl }}" alt="{{ post.title }}" title="{{ post.title }}">{{ post.title }}</h3>
+	{{ post.content }}
+	</li>
+	{% endfor %}
+	</ul>
+	</div>
+</div>
+<div class="solution">
+{% for post in site.categories.solution %}
+	<a class="post-link" href="{{ post.url | relative_url }}"><h2 class="post-list-heading">{{ post.title }}</h2></a>
+	{{ post.excerpt }}
+	{% endfor %}
+</div>
